@@ -1,0 +1,16 @@
+{
+  "name": "Hide Discord Sidebar",
+  "version": "1.0",
+  "description": "Installs a button on Discord that hides/shows the server sidebar, makes channels sidebar responsive to the browser window",
+  "manifest_version": 2,
+  "permissions": ["*://*.discordapp.com/*"],
+  "content_scripts": [{
+    "matches": ["*://*.discordapp.com/*"],
+    "js": ["hide-discord-sidebar.js"],
+    "css": ["hide-discord-sidebar.css"]
+  }],
+  "icons": {
+    "128": "icon128.png"
+  }, 
+  "browser_action": { "default_icon": "icon128.png" }
+}
