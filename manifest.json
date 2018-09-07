@@ -1,7 +1,7 @@
 {
   "name": "Hide Discord Sidebar",
-  "version": "1.0",
-  "description": "Installs a button on Discord that hides/shows the server sidebar, makes channels sidebar responsive to the browser window",
+  "version": "2.0",
+  "description": "Auto hides/shows the Discord sidebar. Hover over left bar to unfold channels sidebar.",
   "manifest_version": 2,
   "permissions": ["*://*.discordapp.com/*"],
   "content_scripts": [{
