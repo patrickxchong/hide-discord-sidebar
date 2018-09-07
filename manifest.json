@@ -1,7 +1,7 @@
 {
   "name": "Hide Discord Sidebar",
   "version": "2.0",
-  "description": "Auto hides/shows the Discord sidebar. Hover over left bar to unfold channels sidebar.",
+  "description": "Installs unfolding sidebar for Discord channels and a button that hides/shows server list",
   "manifest_version": 2,
   "permissions": ["*://*.discordapp.com/*"],
   "content_scripts": [{
