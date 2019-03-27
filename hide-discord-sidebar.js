@@ -3,6 +3,7 @@ function discordHack() {
   // When Discord chat is loaded
   // if (document.querySelector('.divider-2PMBlV').parentNode.childNodes.length == 7 || document.querySelector('.divider-2PMBlV').parentNode.childNodes.length == 4) {
 
+  // Changed as of version 2.5 to be handled by CSS
   /* CHANNELS */
   // var channelPlaceholder = "3.5vmin";
   // var channelWidth = "40vmin";
@@ -22,7 +23,8 @@ function discordHack() {
   // })
 
   /* SERVERS */
-  var guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0];
+  var guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
+    || document.getElementsByClassName('wrapper-1Rf91z')[0];
 
   var btn = document.createElement("BUTTON");
   var t = document.createTextNode("Hide Servers");
