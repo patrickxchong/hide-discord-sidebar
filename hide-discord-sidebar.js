@@ -25,6 +25,7 @@ function discordHack() {
   /* SERVERS */
   var guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
     || document.getElementsByClassName('wrapper-1Rf91z')[0];
+  var app = document.getElementsByClassName('base-3dtUhz')[0];
 
   var btn = document.createElement("BUTTON");
   var t = document.createTextNode("Hide Servers");
@@ -57,11 +58,13 @@ function discordHack() {
 
   function hideServers() {
     guildsWrapper.style.display = 'none';
+    app.style.left = 0;
     btn.innerHTML = "Show Servers"
   }
 
   function showServers() {
     guildsWrapper.style.display = 'flex';
+    app.style.left = "72px";
     btn.innerHTML = "Hide Servers"
   }
 

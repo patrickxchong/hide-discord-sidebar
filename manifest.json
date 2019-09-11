@@ -1,7 +1,7 @@
 {
 	"name": "Hide Discord Sidebar",
 	"short_name": "Hide Dis Bar",
-	"version": "2.8",
+	"version": "2.9",
 	"description": "Installs an unfolding sidebar for Discord channels and a button that hides/shows the Discord server list.",
 	"manifest_version": 2,
 	"permissions": ["*://*.discordapp.com/*"],
