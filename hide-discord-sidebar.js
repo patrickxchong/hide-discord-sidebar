@@ -1,27 +1,5 @@
 function discordHack() {
 
-  // When Discord chat is loaded
-  // if (document.querySelector('.divider-2PMBlV').parentNode.childNodes.length == 7 || document.querySelector('.divider-2PMBlV').parentNode.childNodes.length == 4) {
-
-  // Changed as of version 2.5 to be handled by CSS
-  /* CHANNELS */
-  // var channelPlaceholder = "3.5vmin";
-  // var channelWidth = "40vmin";
-  // var channels = document.getElementsByClassName('channels-Ie2l6A')[0];
-
-  // channels.style.width = 0;
-  // channels.style.paddingLeft = channelPlaceholder;
-
-  // channels.addEventListener("mouseover", function() {
-  //   channels.style.width = channelWidth;
-  //   channels.style.paddingLeft = 0;
-  // })
-
-  // channels.addEventListener("mouseout", function() {
-  //   channels.style.width = 0;
-  //   channels.style.paddingLeft = channelPlaceholder;
-  // })
-
   /* SERVERS */
   var guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
     || document.getElementsByClassName('wrapper-1Rf91z')[0];
@@ -89,7 +67,6 @@ function discordHack() {
 // document.addEventListener('DOMContentLoaded', discordHack, false);
 // alternative to DOMContentLoaded
 document.onreadystatechange = function() {
-  console.log(document.readyState);
   if (document.readyState === "complete") {
     discordHack();
   }
