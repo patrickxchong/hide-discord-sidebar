@@ -1,4 +1,5 @@
-.noticeInfo-3_iTE1, .notice-2FJMB4 {
+.noticeInfo-3_iTE1,
+.notice-2FJMB4 {
   z-index: 1000;
 }
 
@@ -16,7 +17,7 @@
 
 #hideNshow {
   /* background: rgba(32, 34, 37, 0.6); */
-  background: #4f5660;;
+  background: #4f5660;
   color: white;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -28,14 +29,14 @@
   width: 90px;
 }
 
-.sidebar-2K8pFh   {
+html .sidebar-2K8pFh {
   transition: all 0.1s ease 0.1s;
-  width: 0!important;  
- padding-left: 3.5vmin!important;
+  width: 0;
+  padding-left: 3.5vmin;
 }
-.sidebar-2K8pFh:hover   {
-  width: 40vmin!important; 
-  padding-left: 0!important;
+html .sidebar-2K8pFh:hover {
+  width: 240px;
+  padding-left: 0;
 }
 
 .sidebar-2K8pFh > * {
@@ -45,7 +46,7 @@
   /* display: none; */
 }
 
-.sidebar-2K8pFh:hover  > * {
+.sidebar-2K8pFh:hover > * {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s linear;
