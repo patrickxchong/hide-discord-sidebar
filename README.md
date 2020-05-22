@@ -7,7 +7,7 @@ IMPORTANT: This extension is only meant to work on Discord in Chromium based bro
 [![Image of Chrome Store Badge](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_340x96.png)](https://chrome.google.com/webstore/detail/hide-discord-sidebar/kaaohmdnmbdagpnenakakpkinddjmenp?hl=en)
 
 ## Buy me a coffee (or bubble tea)
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/patrickchong)
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/patrickxchong)
 
 ## Copying
 This project is licensed under the GNU General Public License v3.0 or later - see the [COPYING](COPYING) file for details
