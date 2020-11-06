@@ -1,22 +1,24 @@
-.noticeInfo-3_iTE1,
+/* .hide-dis-bar class on body indicates that extension is active */
+body.hide-dis-bar .noticeInfo-3_iTE1,
 .notice-2FJMB4 {
   z-index: 1000;
 }
 
-.toolbar-1t6TWx {
+body.hide-dis-bar .toolbar-1t6TWx {
   padding-right: 100px;
 }
 
-/* .container-3gCOGc .flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignCenter-1dQNNs.noWrap-3jynv6 {
-  padding-right: 100px;
-} */
-
-.container-3gCOGc {
+body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
 }
 
+/* Hide button by default when extension is not active */
 #hideNshow {
-  /* background: rgba(32, 34, 37, 0.6); */
+  display: none;
+}
+
+body.hide-dis-bar #hideNshow {
+  display: block;
   background: #4f5660;
   color: white;
   padding-top: 5px;
@@ -29,24 +31,24 @@
   width: 90px;
 }
 
-html .sidebar-2K8pFh {
+body.hide-dis-bar .sidebar-2K8pFh {
   transition: all 0.1s ease 0.1s;
   width: 0;
   padding-left: 3.5vmin;
 }
-html .sidebar-2K8pFh:hover {
+body.hide-dis-bar .sidebar-2K8pFh:hover {
   width: 240px;
   padding-left: 0;
 }
 
-.sidebar-2K8pFh > * {
+body.hide-dis-bar .sidebar-2K8pFh > * {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 0.2s, opacity 0.2s linear;
   /* display: none; */
 }
 
-.sidebar-2K8pFh:hover > * {
+body.hide-dis-bar .sidebar-2K8pFh:hover > * {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s linear;

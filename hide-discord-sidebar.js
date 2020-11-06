@@ -1,52 +1,65 @@
-function discordHack() {
+function hideDiscordSidebar() {
+
+  // Activate CSS related to the extension
+  document.body.classList.add("hide-dis-bar");
 
   /* SERVERS */
-  var guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
+  const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
     || document.getElementsByClassName('wrapper-1Rf91z')[0];
-  var app = document.getElementsByClassName('base-3dtUhz')[0];
+  const app = document.getElementsByClassName('base-3dtUhz')[0];
 
-  var btn = document.createElement("BUTTON");
-  var t = document.createTextNode("Hide Servers");
+  const btn = document.createElement("BUTTON");
+  const t = document.createTextNode("Hide Servers");
   btn.appendChild(t);
   btn.id = "hideNshow";
 
-  btn.onclick = function() {
-    if (
-      guildsWrapper.style.display === 'none') {
+  btn.onclick = function () {
+    if (guildsWrapper.style.display === 'none') {
       showServers();
     } else {
       hideServers();
     }
-  }
-  document.body.appendChild(btn)
-
-
+  };
+  document.body.appendChild(btn);
 
   if (window.innerWidth < 700) {
     hideServers();
   }
 
-  window.onresize = function() {
-    if (window.innerWidth < 700) {
-      hideServers();
-    } else {
-      showServers();
+  window.onresize = function () {
+    // only if extension is active
+    if (document.body.classList.contains("hide-dis-bar")) {
+      if (window.innerWidth < 700) {
+        hideServers();
+      } else {
+        showServers();
+      }
     }
-  }
+  };
+
+  chrome.runtime.onMessage.addListener(
+    function (request) {
+      if (request.toggleExtension) {
+        const extensionActive = document.body.classList.toggle("hide-dis-bar");
+        if (!extensionActive) {
+          showServers(); // force show servers list (if it's hidden) when extension is disabled
+        }
+      }
+    });
 
   function hideServers() {
     guildsWrapper.style.display = 'none';
     app.style.left = 0;
-    btn.innerHTML = "Show Servers"
+    btn.innerHTML = "Show Servers";
   }
 
   function showServers() {
     guildsWrapper.style.display = 'flex';
     app.style.left = "72px";
-    btn.innerHTML = "Hide Servers"
+    btn.innerHTML = "Hide Servers";
   }
 
-  var styles = [
+  const styles = [
     'background: linear-gradient(#D33106, #571402)'
     , 'border: 1px solid #3E0E02'
     , 'color: white'
@@ -60,14 +73,12 @@ function discordHack() {
   ].join(';');
 
   console.log('%c Hide Discord Sidebar extension activated ', styles);
-  // }
 }
 
-// var hider = setInterval(discordHack, 2000);
-// document.addEventListener('DOMContentLoaded', discordHack, false);
+// document.addEventListener('DOMContentLoaded', hideDiscordSidebar, false);
 // alternative to DOMContentLoaded
-document.onreadystatechange = function() {
+document.onreadystatechange = function () {
   if (document.readyState === "complete") {
-    discordHack();
+    hideDiscordSidebar();
   }
-}
+};
