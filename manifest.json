@@ -4,8 +4,11 @@
 	"version": "2.13",
 	"description": "Installs an unfolding sidebar for Discord channels and a button that hides/shows the Discord server list.",
 	"manifest_version": 2,
-	"permissions": ["*://*.discord.com/*"],
-	"background": { "scripts": ["button-click-listener.js"] },
+	"permissions": ["*://*.discord.com/*", "storage", "declarativeContent", "tabs"],
+	"background": { 
+		"scripts": ["button-click-listener.js"],
+		"persistent": false 
+	},
 	"content_scripts": [{
 		"matches": ["*://*.discord.com/*"],
 		"css": ["hide-discord-sidebar.css"],
@@ -13,9 +16,9 @@
 		"run_at": "document_end"
 	}],
 	"icons": {
-		"128": "icon128.png"
+		"128": "icons/icon128-active.png"
 	},
-	"browser_action": {
-		"default_icon": "icon128.png"
+	"page_action": {
+		"default_icon": "icons/icon128-inactive.png"
 	}
 }

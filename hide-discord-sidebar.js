@@ -1,8 +1,4 @@
 function hideDiscordSidebar() {
-
-  // Activate CSS related to the extension
-  document.body.classList.add("hide-dis-bar");
-
   /* SERVERS */
   const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
     || document.getElementsByClassName('wrapper-1Rf91z')[0];
@@ -22,10 +18,6 @@ function hideDiscordSidebar() {
   };
   document.body.appendChild(btn);
 
-  if (window.innerWidth < 700) {
-    hideServers();
-  }
-
   window.onresize = function () {
     // only if extension is active
     if (document.body.classList.contains("hide-dis-bar")) {
@@ -37,15 +29,21 @@ function hideDiscordSidebar() {
     }
   };
 
-  chrome.runtime.onMessage.addListener(
-    function (request) {
-      if (request.toggleExtension) {
-        const extensionActive = document.body.classList.toggle("hide-dis-bar");
-        if (!extensionActive) {
-          showServers(); // force show servers list (if it's hidden) when extension is disabled
-        }
+  // initialize extension in page (response handled by onMessage handler below)
+  chrome.runtime.sendMessage({ action: "initialize" });
+
+  chrome.runtime.onMessage.addListener(function (request) {
+    if (request.active) {
+      document.body.classList.add("hide-dis-bar");
+      // hide servers by default when screen width is small
+      if (window.innerWidth < 700) {
+        hideServers();
       }
-    });
+    } else {
+      document.body.classList.remove("hide-dis-bar");
+      showServers(); // force show servers list (if it's hidden) when extension is disabled
+    }
+  });
 
   function hideServers() {
     guildsWrapper.style.display = 'none';
