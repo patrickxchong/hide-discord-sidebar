@@ -13,11 +13,11 @@ body.hide-dis-bar .container-3gCOGc {
 }
 
 /* Hide button by default when extension is not active */
-#hideNshow {
+#hds-btn {
   display: none;
 }
 
-body.hide-dis-bar #hideNshow {
+body.hide-dis-bar #hds-btn {
   display: block;
   background: #4f5660;
   color: white;
@@ -53,4 +53,37 @@ body.hide-dis-bar .sidebar-2K8pFh:hover > * {
   opacity: 1;
   transition: opacity 0.2s linear;
   /* display: flex; */
+}
+
+#hds-popup {
+  display: none;
+  justify-content: space-between; /* applies when display: flex */
+  align-items: center;
+  background: #7289da;
+
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  padding: 15px;
+
+  color: #fff;
+  cursor: pointer;
+  z-index: 100;
+  border-radius: 8px;
+  line-height: 1.15;
+}
+
+#hds-popup p {
+  margin: 0 !important;
+}
+
+#hds-popup svg {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  margin-left: 5px;
 }
