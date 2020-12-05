@@ -14,15 +14,12 @@ function updateDiscordTabs(result) {
 
 // Enable/disable extension when extension button is clicked
 chrome.pageAction.onClicked.addListener(function (tab) {
-  // Only run pageAction when url matches https://discord.com
-  if (tab.url && tab.url.match(/https:\/\/discord.com/g)) {
-    chrome.storage.local.get({ "active": true }, function (result) {
-      // toggle active status
-      result.active = !result.active;
-      chrome.storage.local.set({ active: result.active });
-      updateDiscordTabs(result);
-    });
-  }
+  chrome.storage.local.get({ "active": true }, function (result) {
+    // toggle active status
+    result.active = !result.active;
+    chrome.storage.local.set({ active: result.active });
+    updateDiscordTabs(result);
+  });
 });
 
 // Initialize extension status on client when requested
@@ -52,7 +49,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   }
 });
 
-// Enable PageAction only on discord.com pages
+// Enable PageAction only on discord.com pages (causes extension icon have "disabled" look on other pages)
 // The removeRules operation is performed because the rule will be added repeatedly every time the extension is refreshed.
 chrome.declarativeContent.onPageChanged.removeRules(undefined, data => {
   chrome.declarativeContent.onPageChanged.addRules([{
