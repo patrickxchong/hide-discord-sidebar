@@ -77,6 +77,9 @@ function hideDiscordSidebar() {
 // alternative to DOMContentLoaded
 document.onreadystatechange = function () {
   if (document.readyState === "complete") {
-    hideDiscordSidebar();
+    // Check that the Discord page contains the base chat element
+    if(document.getElementsByClassName('base-3dtUhz')[0]) {
+      hideDiscordSidebar();
+    }
   }
 };
