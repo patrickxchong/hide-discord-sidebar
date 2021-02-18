@@ -33,12 +33,12 @@ body.hide-dis-bar #hds-btn {
 
 body.hide-dis-bar .sidebar-2K8pFh {
   transition: all 0.1s ease 0.1s;
-  width: 0;
-  padding-left: 3.5vmin;
+  width: 0 !important;
+  padding-left: 3.5vmin !important;
 }
 body.hide-dis-bar .sidebar-2K8pFh:hover {
-  width: 240px;
-  padding-left: 0;
+  width: 240px !important;
+  padding-left: 0 !important;
 }
 
 body.hide-dis-bar .sidebar-2K8pFh > * {
