@@ -1,7 +1,14 @@
 function hideDiscordSidebar() {
   /* SERVERS */
+
+  // Select the server list element, which changes in some updates. 
   const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
-    || document.getElementsByClassName('wrapper-1Rf91z')[0];
+    || document.getElementsByClassName('wrapper-1Rf91z')[0]
+    || document.getElementsByClassName('wrapper-3NnKdC')[0]
+    // Experimenting with document.querySelector("nav[class*=wrapper-]") 
+    // as a general fallback to select the server list.
+    || document.querySelector("nav[class*=wrapper-]");
+
   const app = document.getElementsByClassName('base-3dtUhz')[0];
 
   const btn = document.createElement("BUTTON");
@@ -99,7 +106,7 @@ function hideDiscordSidebar() {
 document.onreadystatechange = function () {
   if (document.readyState === "complete") {
     // Check that the Discord page contains the base chat element
-    if(document.getElementsByClassName('base-3dtUhz')[0]) {
+    if (document.getElementsByClassName('base-3dtUhz')[0]) {
       hideDiscordSidebar();
     }
   }
