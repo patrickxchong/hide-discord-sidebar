@@ -9,7 +9,7 @@ function hideDiscordSidebar() {
     // as a general fallback to select the server list.
     || document.querySelector("nav[class*=wrapper-]");
 
-  const app = document.getElementsByClassName('base-3dtUhz')[0];
+  // const app = document.getElementsByClassName('base-3dtUhz')[0];
 
   const btn = document.createElement("BUTTON");
   const t = document.createTextNode("Hide Servers");
@@ -67,13 +67,13 @@ function hideDiscordSidebar() {
 
   function hideServers() {
     guildsWrapper.style.display = 'none';
-    app.style.left = 0;
+    // app.style.left = 0;
     btn.innerHTML = "Show Servers";
   }
 
   function showServers() {
     guildsWrapper.style.display = 'flex';
-    app.style.left = "72px";
+    // app.style.left = "72px";
     btn.innerHTML = "Hide Servers";
   }
 
