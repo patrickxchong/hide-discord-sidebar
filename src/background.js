@@ -24,6 +24,7 @@ chrome.pageAction.onClicked.addListener(function (tab) {
 
 // Initialize extension status on client when requested
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(request)
   if (request.action == "initialize") {
     chrome.storage.local.get({ "active": true }, function (result) {
       updateDiscordTabs(result);
@@ -49,7 +50,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   }
 });
 
-// Enable PageAction only on discord.com pages (causes extension icon have "disabled" look on other pages)
+// Enable action only on discord.com pages (causes extension icon have "disabled" look on other pages)
 // The removeRules operation is performed because the rule will be added repeatedly every time the extension is refreshed.
 chrome.declarativeContent.onPageChanged.removeRules(undefined, data => {
   chrome.declarativeContent.onPageChanged.addRules([{
