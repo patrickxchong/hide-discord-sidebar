@@ -1,6 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <head>
+  <script src="./popup.js" defer></script>
+  <script src="./alpine.min.js" defer></script>
+  <link rel="stylesheet" href="./fontawesome.min.css">
   <style type="text/css">
     *,
     *:before,
@@ -9,29 +12,31 @@
     }
 
     #main {
-      background: #202225;
+      /* background: #202225; */
       /* background: #2f3136; */
+      background: #36393f;
       color: white;
-      padding: 10px;
+      padding: 10px 15px;
       height: 450px;
-      width: 300px;
+      width: 350px;
       font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     body {
       padding: 0px;
       margin: 0px;
-      border: 2px solid white;
+      border: 2px solid #2f3136;
     }
 
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 600;
     }
 
     h2 {
       font-size: 1.125rem;
       font-weight: 600;
+      margin-bottom: 5px;
     }
 
     .flex {
@@ -48,11 +53,16 @@
       justify-content: center;
     }
 
+    label {
+      font-size: 1.2rem;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
     .button {
-      width: 100px;
-      height: 32px;
-      min-width: 60px;
-      min-height: 32px;
+      padding: 8px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -61,20 +71,33 @@
       color: white;
       border-radius: 3px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.3rem;
     }
 
     .green-button {
-      background-color: rgb(59, 165, 92)
+      background-color: #3ba55c;
+    }
+
+    .green-button[inactive] {
+      background-color: transparent;
+      color: #3ba55c;
+      border: 1px solid #3ba55c;
     }
 
     .red-button {
       background-color: #ed4245;
     }
 
-    .red-outline-button {
+    .red-button[inactive] {
+      background-color: transparent;
       color: #ed4245;
       border: 1px solid #ed4245;
+    }
+
+    .fa-cog {
+      margin-left: 5px;
+      width: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -86,38 +109,68 @@
       <h1 style="margin-left: 5px">Hide Discord Sidebar</h1>
     </div>
     <br />
-    <div class="flex flex-center">
-      <button class="button green-button">Enabled</button>
-      <button class="button red-outline-button">Disabled</button>
+    <div x-data="ComponentEnable()" x-init="getState()"
+      class="flex flex-center">
+      <button @click="enable()" class="button green-button"
+        :inactive="!enabled">Enabled</button>
+      <button @click="disable()" class="button red-button" inactive
+        :inactive="enabled">Disabled</button>
     </div>
     <div>
       <h2>Servers</h2>
-      <div class="flex-col">
-        <label for="contactChoice1"><input type="radio" id="contactChoice1"
-            name="contact" value="email">
+      <div class="flex-col" x-data="ComponentRadioGroup()">
+        <label for="server-autohide"><input type="radio" id="server-autohide"
+            name="server" checked>
           Autohide when window is small</label>
 
-        <label for="contactChoice2"><input type="radio" id="contactChoice2"
-            name="contact" value="phone">
-          Disable autohide</label>
+        <div class="flex items-center">
+          <label for="server-disable"><input type="radio" id="server-disable"
+              name="server">
+            Disable autohide
+          </label>
+          <div @click="openOptionsPage()">
+            <svg @click="" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+              focusable="false" data-prefix="fas" data-icon="cog" class="fa-cog"
+              role="img" viewBox="0 0 512 512">
+              <path fill="currentColor"
+                d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z" />
+            </svg>
+          </div>
+        </div>
+
 
       </div>
     </div>
+    <br />
     <div>
       <h2>Channels</h2>
-      <div class="flex-col">
-        <label for="contactChoice1"><input type="radio" id="contactChoice1"
-            name="contact" value="email">
+      <div class="flex-col" x-data="ComponentRadioGroup()">
+        <label for="channel-hide"><input type="radio" id="channel-hide"
+            name="channel">
           Autohide at all times</label>
+        <div class="flex items-center">
 
-        <label for="contactChoice2"><input type="radio" id="contactChoice2"
-            name="contact" value="phone">
-          Autohide when window is small</label>
+          <label for="channel-autohide"><input type="radio"
+              id="channel-autohide" name="channel" checked>
+            Autohide when window is small
 
-        <label for="contactChoice3"><input type="radio" id="contactChoice3"
-            name="contact" value="mail">
+          </label>
+          <div @click="openOptionsPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+              focusable="false" data-prefix="fas" data-icon="cog" class="fa-cog"
+              role="img" viewBox="0 0 512 512">
+              <path fill="currentColor"
+                d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z" />
+            </svg>
+          </div>
+        </div>
+
+        <label for="channel-disable"><input type="radio" id="channel-disable"
+            name="channel">
           Disable autohide</label>
       </div>
     </div>
   </div>
 </body>
+
+</html>

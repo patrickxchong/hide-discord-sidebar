@@ -12,25 +12,24 @@ function updateDiscordTabs(result) {
   });
 }
 
-// Enable/disable extension when extension button is clicked
-chrome.pageAction.onClicked.addListener(function (tab) {
-  chrome.storage.local.get({ "active": true }, function (result) {
-    // toggle active status
-    result.active = !result.active;
-    chrome.storage.local.set({ active: result.active });
-    updateDiscordTabs(result);
-  });
-});
-
 // Initialize extension status on client when requested
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(request)
-  if (request.action == "initialize") {
+  if (request.action === "initialize") {
     chrome.storage.local.get({ "active": true }, function (result) {
       updateDiscordTabs(result);
     });
-    return true;
   }
+  if (request.action === "enable") {
+    chrome.storage.local.set({ active: true });
+    updateDiscordTabs({ active: true });
+    sendResponse("enabled");
+  }
+  if (request.action === "disable") {
+    chrome.storage.local.set({ active: false });
+    updateDiscordTabs({ active: false });
+    sendResponse("disabled");
+  }
+  return true;
 });
 
 // Initialize extension on install

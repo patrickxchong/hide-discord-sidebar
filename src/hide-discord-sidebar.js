@@ -51,8 +51,9 @@ function hideDiscordSidebar() {
   chrome.runtime.sendMessage({ action: "initialize" });
 
   chrome.runtime.onMessage.addListener(function (request) {
+    console.log(request);
     if (request.active) {
-      togglePopup(false);
+      // togglePopup(false);
       document.body.classList.add("hide-dis-bar");
       // hide servers by default when screen width is small
       if (window.innerWidth < 700) {
@@ -60,7 +61,7 @@ function hideDiscordSidebar() {
       }
     } else {
       document.body.classList.remove("hide-dis-bar");
-      togglePopup(true);
+      // togglePopup(true);
       showServers(); // force show servers list (if it's hidden) when extension is disabled
     }
   });

@@ -20,6 +20,11 @@
 		"default_icon": "icons/icon128-inactive.png",
 		"default_popup": "popup/popup.html"
 	},
+	"options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false
+  },
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"content_scripts": [
 		{
 			"matches": [
