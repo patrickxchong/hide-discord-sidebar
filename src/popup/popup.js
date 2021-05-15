@@ -23,8 +23,15 @@ function sendMessage(message) {
 function ComponentEnable() {
   return {
     enabled: true,
-    async getState() {
+    async created() {
       this.enabled = await readLocalStorage("active");
+    },
+    async toggle() {
+      if (this.enabled) {
+        this.disable();
+      } else {
+        this.enable();
+      }
     },
     async enable() {
       this.enabled = true;
@@ -42,6 +49,6 @@ function ComponentRadioGroup() {
     openOptionsPage() {
       chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
     }
-  }
+  };
 
 }

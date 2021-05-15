@@ -1,0 +1,52 @@
+.bmc-btn svg {
+  height: 32px !important;
+  margin-bottom: 0px !important;
+  box-shadow: none !important;
+  border: none !important;
+  vertical-align: middle !important;
+  transform: scale(0.9);
+  flex-shrink: 0;
+}
+
+.bmc-btn {
+  min-width: 210px;
+  color: white;
+  /* background-color: #7289da !important; */
+  /* background-color: #3ba55c !important; */
+  background-color: #fbaa19 !important;
+  height: 60px;
+  border-radius: 12px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  border: none;
+  padding: 0px 24px;
+  line-height: 27px;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  box-sizing: border-box !important;
+}
+
+.bmc-btn:hover,
+.bmc-btn:active,
+.bmc-btn:focus {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.bmc-btn-text {
+  margin-left: 10px;
+  display: inline-block;
+  line-height: 0;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.logo-outline {
+  fill: #000000;
+}
+
+.logo-coffee {
+  fill: #ffffff;
+}
