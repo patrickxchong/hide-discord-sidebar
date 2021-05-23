@@ -33,12 +33,15 @@ function ComponentHDS() {
       active: true,
       servers: "server-autohide",
       channels: "channel-autohide",
+      smallWindowWidth: 700
     },
+    inputWindowWidth: 700,
     parentWindowWidth: 0,
     async created() {
       let state = await getState(null);
       console.log(state);
       this.state = state;
+      this.inputWindowWidth = this.state.smallWindowWidth;
       this.$watch('state.servers', async value => {
         await sendMessage({ action: "update", state: this.state });
       });
@@ -51,11 +54,14 @@ function ComponentHDS() {
       await sendMessage({ action: "update", state: this.state });
     },
     async openOptionsModal() {
-      let results = await executeScript("window.innerWidth")
-      this.parentWindowWidth = results[0]
+      let results = await executeScript("window.innerWidth");
+      this.parentWindowWidth = results[0];
+      this.inputWindowWidth = this.state.smallWindowWidth;
       MicroModal.show("options-modal");
     },
     async saveOptions() {
+      this.state.smallWindowWidth = this.inputWindowWidth;
+      await sendMessage({ action: "update", state: this.state });
       MicroModal.close("options-modal");
     }
   };

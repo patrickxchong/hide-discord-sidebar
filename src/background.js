@@ -52,7 +52,7 @@ chrome.runtime.onInstalled.addListener(async function (details) {
     active: true,
     servers: "server-autohide",
     channels: "channel-autohide",
-    smallWindowWidth: 600
+    smallWindowWidth: 700
   });
   await setState(state);
   console.table(state);
