@@ -1,43 +1,65 @@
-// Update extension icon and also inform opened Discord tabs about active status change
-function updateDiscordTabs(result) {
+// Alert scripts on Discord tabs and update extension icon 
+function updateDiscordTabs(state) {
+  console.log(state);
   chrome.tabs.query({ url: "*://*.discord.com/*" }, function (tabs) {
     tabs.forEach(function (tab) {
-      if (result.active) {
+      chrome.tabs.sendMessage(tab.id, state);
+
+      if (state.active) {
         chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-active.png" });
       } else {
         chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-inactive.png" });
       }
-      chrome.tabs.sendMessage(tab.id, { active: result.active });
     });
   });
 }
 
 // Initialize extension status on client when requested
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
   if (request.action === "initialize") {
-    chrome.storage.local.get({ "active": true }, function (result) {
-      updateDiscordTabs(result);
-    });
+    let state = await getState(null);
+    updateDiscordTabs(state);
   }
-  if (request.action === "enable") {
-    chrome.storage.local.set({ active: true });
-    updateDiscordTabs({ active: true });
-    sendResponse("enabled");
-  }
-  if (request.action === "disable") {
-    chrome.storage.local.set({ active: false });
-    updateDiscordTabs({ active: false });
-    sendResponse("disabled");
+  else if (request.action === "update") {
+    chrome.storage.local.set(request.state);
+    updateDiscordTabs(request.state);
+    sendResponse({ success: true });
   }
   return true;
 });
 
+// Promisefy Chrome functions
+function getState(query) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(query, function (result) {
+      resolve(result);
+    });
+  });
+}
+
+function setState(data) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set(data, function () {
+      resolve(data);
+    });
+  });
+}
+
 // Initialize extension on install
-chrome.runtime.onInstalled.addListener(function (details) {
+chrome.runtime.onInstalled.addListener(async function (details) {
+  // Initialize default state
+  let state = await getState({
+    active: true,
+    servers: "server-autohide",
+    channels: "channel-autohide",
+    smallWindowWidth: 600
+  });
+  await setState(state);
+  console.table(state);
+
   if (details.reason == "install") {
     console.log("[Hide Discord Sidebar] First install");
-    // Set default active state and refresh Discord pages on first install
-    chrome.storage.local.set({ active: true });
+    // Refresh Discord pages on first install
     chrome.tabs.query({ url: "*://*.discord.com/*" }, function (tabs) {
       tabs.forEach(function (tab) {
         chrome.tabs.reload(tab.id);

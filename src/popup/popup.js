@@ -1,13 +1,8 @@
 // Promisefy Chrome functions
-function readLocalStorage(key) {
+function getState(query) {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get([key], function (result) {
-      console.log(result);
-      if (Object.values(result)[0] != undefined) {
-        resolve(Object.values(result)[0]);
-      } else {
-        reject();
-      }
+    chrome.storage.local.get(query, function (result) {
+      resolve(result);
     });
   });
 }
@@ -20,35 +15,48 @@ function sendMessage(message) {
   });
 }
 
-function ComponentEnable() {
-  return {
-    enabled: true,
-    async created() {
-      this.enabled = await readLocalStorage("active");
-    },
-    async toggle() {
-      if (this.enabled) {
-        this.disable();
-      } else {
-        this.enable();
-      }
-    },
-    async enable() {
-      this.enabled = true;
-      await sendMessage({ action: "enable" });
-    },
-    async disable() {
-      this.enabled = false;
-      await sendMessage({ action: "disable" });
-    },
-  };
+function executeScript(script) {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.executeScript({
+      code: script
+    }, function (results) {
+      resolve(results);
+    });
+  });
 }
 
-function ComponentRadioGroup() {
+MicroModal.init();
+
+function ComponentHDS() {
   return {
-    openOptionsPage() {
-      chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
+    state: {
+      active: true,
+      servers: "server-autohide",
+      channels: "channel-autohide",
+    },
+    parentWindowWidth: 0,
+    async created() {
+      let state = await getState(null);
+      console.log(state);
+      this.state = state;
+      this.$watch('state.servers', async value => {
+        await sendMessage({ action: "update", state: this.state });
+      });
+      this.$watch('state.channels', async value => {
+        await sendMessage({ action: "update", state: this.state });
+      });
+    },
+    async toggleActive() {
+      this.state.active = !this.state.active;
+      await sendMessage({ action: "update", state: this.state });
+    },
+    async openOptionsModal() {
+      let results = await executeScript("window.innerWidth")
+      this.parentWindowWidth = results[0]
+      MicroModal.show("options-modal");
+    },
+    async saveOptions() {
+      MicroModal.close("options-modal");
     }
   };
-
 }
