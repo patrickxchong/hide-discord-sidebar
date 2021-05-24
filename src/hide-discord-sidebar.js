@@ -24,7 +24,15 @@ function hideDiscordSidebar() {
   };
   document.body.appendChild(btn);
 
-  window.onresize = function () {
+
+  let timeout = false; // holder for timeout id
+  window.addEventListener('resize', function () {
+    clearTimeout(timeout);
+    // start timing for event "completion"
+    timeout = setTimeout(resizeHandler, 250);
+  });
+
+  function resizeHandler() {
     // only if extension is active
     if (document.body.classList.contains("hide-dis-bar")) {
       if (window.innerWidth < 700) {
@@ -33,7 +41,7 @@ function hideDiscordSidebar() {
         showServers();
       }
     }
-  };
+  }
 
   // initialize extension in page (response handled by onMessage handler below)
   chrome.runtime.sendMessage({ action: "initialize" });
