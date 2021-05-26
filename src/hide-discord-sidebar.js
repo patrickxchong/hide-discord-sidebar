@@ -39,7 +39,7 @@ function hideDiscordSidebar() {
     // only if extension is active
     if (state.active) {
       if (state.servers == "server-autohide") {
-        if (window.innerWidth < state.smallWindowWidth) {
+        if (window.innerWidth <= state.smallWindowWidth) {
           hideServers();
         } else {
           showServers();
