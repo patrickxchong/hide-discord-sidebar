@@ -25,6 +25,10 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
     updateDiscordTabs(request.state);
     sendResponse({ success: true });
   }
+  else if (request.action === "silent-update") {
+    chrome.storage.local.set(request.state);
+    sendResponse({ success: true });
+  }
   return true;
 });
 
@@ -50,6 +54,7 @@ chrome.runtime.onInstalled.addListener(async function (details) {
   // Initialize default state
   let state = await getState({
     active: true,
+    showServers: true,
     servers: "server-autohide",
     channels: "channel-autohide",
     smallWindowWidth: 700
@@ -77,8 +82,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, data => {
   chrome.declarativeContent.onPageChanged.addRules([{
     conditions: [
       new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: { hostEquals: 'discord.com', schemes: ['https'] },
-        css: [".sidebar-2K8pFh"]
+        pageUrl: { hostEquals: 'discord.com', schemes: ['https'] }
       }),
     ],
     actions: [

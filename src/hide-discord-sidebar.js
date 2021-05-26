@@ -2,6 +2,7 @@ function hideDiscordSidebar() {
   // initialise default state
   let state = {
     active: false,
+    showServers: true,
     channels: "channel-disable",
     servers: "server-disable",
     smallWindowWidth: "700",
@@ -59,20 +60,32 @@ function hideDiscordSidebar() {
 
     document.body.classList.toggle("hide-dis-bar", state.active);
     document.body.classList.toggle("channel-hide", state.channels == "channel-hide");
-    if (state.servers = "server-disable") {
-      hideServers();
+
+    if (state.active && state.servers == "server-disable" && state.showServers == false) {
+      hideServers(false);
+    } else {
+      showServers(false);
     }
+
     resizeHandler();
   });
 
-  function hideServers() {
+  function hideServers(updateBackend = true) {
     guildsWrapper.style.display = 'none';
     btn.innerHTML = "Show Servers";
+    if (updateBackend) {
+      state.showServers = false;
+      sendMessage({ action: "silent-update", state });
+    }
   }
 
-  function showServers() {
+  function showServers(updateBackend = true) {
     guildsWrapper.style.display = 'flex';
     btn.innerHTML = "Hide Servers";
+    if (updateBackend) {
+      state.showServers = true;
+      sendMessage({ action: "silent-update", state });
+    }
   }
 
   const styles = [
@@ -101,3 +114,11 @@ document.addEventListener('readystatechange', function () {
     }
   }
 });
+
+function sendMessage(message) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(message, function (result) {
+      resolve(result);
+    });
+  });
+}
