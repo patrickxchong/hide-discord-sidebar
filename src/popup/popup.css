@@ -1,0 +1,171 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+}
+
+#main {
+  /* background: #202225; */
+  /* background: #2f3136; */
+  background: #36393f;
+  color: white;
+  padding: 10px 5px;
+  height: 590px;
+  width: 350px;
+  font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  border: 2px solid #2f3136;
+  user-select: none;
+}
+
+h1 {
+  font-size: 1.625rem;
+  font-weight: 600;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 8px
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin: 2px 0;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.radio-item {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+}
+
+.radio-item input[type="radio"] {
+  display: none;
+}
+
+.radio-item label {
+  display: flex;
+}
+
+.radio-item label > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  border: 2.5px solid white;
+}
+
+.radio-item input[type="radio"]:checked + label > span > span {
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  background: #a5b3e7;
+}
+
+.bi-gear-fill {
+  margin-left: 6px;
+  width: 18px;
+  cursor: pointer;
+}
+
+.bi-power {
+  width: 60px;
+}
+
+.component-power {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.component-power p {
+  margin: 10px 0px;
+}
+
+.button-power {
+  position: relative;
+  margin: auto;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  background-color: #7289da;
+  /* background: #36393f; */
+  /* color: white; */
+}
+
+.button-power[inactive] {
+  /* background: #202225; */
+  /* border: 3px solid white; */
+  background-color: transparent;
+  border: 3px solid #ed4245;
+  color: #ed4245;
+}
+
+.button::before {
+  background-color: currentColor;
+  border-radius: inherit;
+  color: inherit;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.button:hover::before {
+  opacity: 0.08;
+}
+
+.footer {
+  font-size: 1.1rem;
+}
+
+.footer p {
+  margin-bottom: 10px;
+}
