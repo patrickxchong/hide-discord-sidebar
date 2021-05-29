@@ -8,14 +8,18 @@
   font-size: 16px;
 }
 
-#main {
+body {
   /* background: #202225; */
   /* background: #2f3136; */
   background: #36393f;
   color: white;
-  padding: 10px 5px;
-  height: 590px;
-  width: 350px;
+  overflow: hidden;
+}
+
+#main {
+  padding: 12px 12px 16px;
+  /* min-height: 590px; */
+  min-width: 350px;
   font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -32,15 +36,16 @@ body {
 h1 {
   font-size: 1.625rem;
   font-weight: 600;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 8px
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 8px;
 }
 
 h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-top: 16px;
+  margin-bottom: 4px;
 }
 
 .flex {
@@ -81,22 +86,16 @@ label {
   display: flex;
 }
 
-.radio-item label > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.radio-item label svg {
   margin-right: 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  border: 2.5px solid white;
 }
 
-.radio-item input[type="radio"]:checked + label > span > span {
-  border-radius: 100%;
-  width: 10px;
-  height: 10px;
-  background: #a5b3e7;
+.radio-item label > svg > circle {
+  display: none;
+}
+
+.radio-item input[type="radio"]:checked + label > svg > circle {
+  display: block;
 }
 
 .bi-gear-fill {
@@ -163,9 +162,11 @@ label {
 }
 
 .footer {
+  margin-top: 8px;
   font-size: 1.1rem;
 }
 
 .footer p {
-  margin-bottom: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }

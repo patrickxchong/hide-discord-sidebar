@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
 <head>
+  <link rel="stylesheet" href="./popup.css">
+  <link rel="stylesheet" href="./buy-me-a-coffee.css">
+  <link rel="stylesheet" href="./micromodal.css">
   <script src="./micromodal.min.js" defer></script>
   <script src="./popup.js" defer></script>
   <script src="./alpine.min.js" defer></script>
-  <link rel="stylesheet" href="./micromodal.css">
-  <link rel="stylesheet" href="./buy-me-a-coffee.css">
-  <link rel="stylesheet" href="./popup.css">
 </head>
 
 <body>
@@ -36,11 +36,16 @@
             <input x-model="state.servers" type="radio" id="server-autohide"
               value="server-autohide" name="server" checked>
             <label for="server-autohide">
-              <span>
-                <span></span>
-              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                width="20" height="20" fill="currentColor">
+                <circle cx="8" cy="8" r="4.5" color="#a5b3e7" />
+                <path fill-rule="evenodd"
+                  d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
+                </path>
+              </svg>
               Autohide when window is small</label>
           </div>
+
           <div class="flex flex-center" @click="openOptionsModal()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
               class="bi bi-gear-fill" viewBox="0 0 16 16">
@@ -53,25 +58,30 @@
           <input x-model="state.servers" type="radio" id="server-disable"
             value="server-disable" name="server">
           <label for="server-disable">
-            <span>
-              <span></span>
-            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+              width="20" height="20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
+              </path>
+              <circle cx="8" cy="8" r="4.5" color="#a5b3e7" />
+            </svg>
             Disable autohide
           </label>
         </div>
       </div>
-    </div>
-    <br />
-    <div>
       <h2>Channels</h2>
       <div class="flex-col">
         <div class="radio-item">
           <input x-model="state.channels" type="radio" id="channel-hide"
             value="channel-hide" name="channel">
           <label for="channel-hide">
-            <span>
-              <span></span>
-            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+              width="20" height="20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
+              </path>
+              <circle cx="8" cy="8" r="4.5" color="#a5b3e7" />
+            </svg>
             Autohide at all times</label>
         </div>
         <div class="flex items-center">
@@ -79,9 +89,13 @@
             <input x-model="state.channels" type="radio" id="channel-autohide"
               value="channel-autohide" name="channel" checked>
             <label for="channel-autohide">
-              <span>
-                <span></span>
-              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                width="20" height="20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
+                </path>
+                <circle cx="8" cy="8" r="4.5" color="#a5b3e7" />
+              </svg>
               Autohide when window is small
             </label>
           </div>
@@ -97,9 +111,13 @@
           <input x-model="state.channels" type="radio" id="channel-disable"
             value="channel-disable" name="channel">
           <label for="channel-disable">
-            <span>
-              <span></span>
-            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+              width="20" height="20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
+              </path>
+              <circle cx="8" cy="8" r="4.5" color="#a5b3e7" />
+            </svg>
             Disable autohide</label>
         </div>
       </div>

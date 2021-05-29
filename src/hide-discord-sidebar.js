@@ -46,7 +46,7 @@ function hideDiscordSidebar() {
         }
       }
       if (state.channels == "channel-autohide") {
-        document.body.classList.toggle("channel-hide", window.innerWidth < state.smallWindowWidth);
+        document.body.classList.toggle("channel-hide", window.innerWidth <= state.smallWindowWidth);
       }
     }
   }
