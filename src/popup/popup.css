@@ -1,0 +1,172 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+}
+
+html,
+body {
+  font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #36393f;
+  border: 2px solid #2f3136;
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  /* min-height: 590px; */
+  min-width: 355px;
+  user-select: none;
+}
+
+#main {
+  padding: 12px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.625rem;
+  font-weight: 600;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 8px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin: 2px 0;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.radio-item {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+}
+
+.radio-item input[type="radio"] {
+  display: none;
+}
+
+.radio-item label {
+  display: flex;
+}
+
+.radio-item label svg {
+  margin-right: 5px;
+}
+
+.radio-item label > svg > circle {
+  display: none;
+}
+
+.radio-item input[type="radio"]:checked + label > svg > circle {
+  display: block;
+}
+
+.bi-gear-fill {
+  margin-left: 6px;
+  width: 18px;
+  cursor: pointer;
+}
+
+.bi-power {
+  width: 60px;
+}
+
+.component-power {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.component-power p {
+  margin: 10px 0px 0px;
+}
+
+.button-power {
+  position: relative;
+  margin: auto;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  background-color: #7289da;
+  /* background: #36393f; */
+  /* color: white; */
+}
+
+.button-power[inactive] {
+  /* background: #202225; */
+  /* border: 3px solid white; */
+  background-color: transparent;
+  border: 3px solid #ed4245;
+  color: #ed4245;
+}
+
+.button::before {
+  background-color: currentColor;
+  border-radius: inherit;
+  color: inherit;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.button:hover::before {
+  opacity: 0.08;
+}
+
+.footer {
+  margin-top: 8px;
+  font-size: 17px;
+}
+
+.footer p {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
