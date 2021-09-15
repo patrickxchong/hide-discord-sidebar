@@ -1,26 +1,23 @@
 // Alert scripts on Discord tabs and update extension icon 
 function updateDiscordTabs(state) {
-  console.log(state);
-  chrome.tabs.query({ url: "*://*.discord.com/*" }, function (tabs) {
-    tabs.forEach(function (tab) {
-      chrome.tabs.sendMessage(tab.id, state);
-
-      if (state.active) {
-        chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-active.png" });
-      } else {
-        chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-inactive.png" });
-      }
-    });
+  // console.log(state);
+  chrome.tabs.query({ url: "*://*.discord.com/*" }, (tabs) => {
+    tabs.forEach((tab) => updateDiscordTab(state, tab.id));
   });
+}
+
+function updateDiscordTab(state, tabId) {
+  chrome.tabs.sendMessage(tabId, state);
+  if (state.active) {
+    chrome.pageAction.setIcon({ tabId, path: "icons/icon128-active.png" });
+  } else {
+    chrome.pageAction.setIcon({ tabId, path: "icons/icon128-inactive.png" });
+  }
 }
 
 // Initialize extension status on client when requested
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
-  if (request.action === "initialize") {
-    let state = await getState(null);
-    updateDiscordTabs(state);
-  }
-  else if (request.action === "update") {
+  if (request.action === "update") {
     chrome.storage.local.set(request.state);
     updateDiscordTabs(request.state);
     sendResponse({ success: true });
@@ -31,23 +28,6 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
   }
   return true;
 });
-
-// Promisefy Chrome functions
-function getState(query) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get(query, function (result) {
-      resolve(result);
-    });
-  });
-}
-
-function setState(data) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.set(data, function () {
-      resolve(data);
-    });
-  });
-}
 
 // Initialize extension on install
 chrome.runtime.onInstalled.addListener(async function (details) {
@@ -66,29 +46,65 @@ chrome.runtime.onInstalled.addListener(async function (details) {
     console.log("[Hide Discord Sidebar] First install");
     // Refresh Discord pages on first install
     chrome.tabs.query({ url: "*://*.discord.com/*" }, function (tabs) {
-      tabs.forEach(function (tab) {
+      tabs.forEach((tab) => {
         chrome.tabs.reload(tab.id);
       });
     });
   } else if (details.reason == "update") {
     const thisVersion = chrome.runtime.getManifest().version;
     console.log("[Hide Discord Sidebar] Updated from " + details.previousVersion + " to " + thisVersion + "!");
+    chrome.tabs.query({ url: "*://*.discord.com/*" }, (tabs) => {
+      tabs.forEach((tab) => {
+        if (state.active) {
+          chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-active.png" });
+        } else {
+          chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-inactive.png" });
+        }
+        chrome.pageAction.show(tab.id);
+      });
+    });
+
   }
 });
 
-// Enable action only on discord.com pages (causes extension icon have "disabled" look on other pages)
-// The removeRules operation is performed because the rule will be added repeatedly every time the extension is refreshed.
-chrome.declarativeContent.onPageChanged.removeRules(undefined, data => {
-  chrome.declarativeContent.onPageChanged.addRules([{
-    conditions: [
-      new chrome.declarativeContent.PageStateMatcher({
-        pageUrl: { hostEquals: 'discord.com', schemes: ['https'] }
-      }),
-    ],
-    actions: [
-      new chrome.declarativeContent.ShowPageAction()
-    ],
-  }], data => {
-    // addRules callback
-  });
+// https://stackoverflow.com/questions/21881627/content-scripts-not-trapping-chrome-tabs-onupdate
+chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
+  if (changeInfo.status === 'complete' && tab.url && tab.url.match(/discord\.com/)) {
+    // console.log("onUpdated");
+    // console.log(tabId, changeInfo, tab);
+    let state = await getState(null);
+    updateDiscordTab(state, tabId);
+    chrome.pageAction.show(tabId);
+  } else if (changeInfo.status === 'complete') {
+    chrome.pageAction.hide(tabId);
+  }
 });
+
+chrome.tabs.onCreated.addListener(async function (tab) {
+  if (tab.url && tab.url.match(/discord\.com/)) {
+    // console.log("onCreated");
+    // console.log(tab);
+    let state = await getState(null);
+    updateDiscordTab(state, tab.id);
+    chrome.pageAction.show(tab.id);
+  } else if (tab.url) {
+    chrome.pageAction.hide(tab.id);
+  }
+});
+
+// Promisefy Chrome functions
+function getState(query) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(query, function (result) {
+      resolve(result);
+    });
+  });
+}
+
+function setState(data) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set(data, function () {
+      resolve(data);
+    });
+  });
+}

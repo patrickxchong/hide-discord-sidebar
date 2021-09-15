@@ -1,124 +1,137 @@
-function hideDiscordSidebar() {
-  // initialise default state
-  let state = {
-    active: false,
-    showServers: true,
-    channels: "channel-disable",
-    servers: "server-disable",
-    smallWindowWidth: "700",
-  };
+const HDS = {
+  state: {},
+  $refs: {
+    guildsWrapper: null,
+    btn: null,
+  },
+  stateChangeHandler(state) {
+    this.state = Object.assign({}, state);
+    document.body.classList.toggle("hide-dis-bar", this.state.active);
+    document.body.classList.toggle("channel-hide", this.state.channels == "channel-hide");
 
-  // Select the server list element, which changes in some updates. 
-  const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
-    || document.getElementsByClassName('wrapper-1Rf91z')[0]
-    || document.getElementsByClassName('wrapper-3NnKdC')[0]
-    // General fallback to select the server list.
-    || document.querySelector("nav[class*=wrapper-]");
-
-  const btn = document.createElement("BUTTON");
-  const t = document.createTextNode("Hide Servers");
-  btn.appendChild(t);
-  btn.id = "hds-btn";
-  btn.onclick = function () {
-    if (guildsWrapper.style.display === 'none') {
-      showServers();
+    if (this.state.active && this.state.servers == "server-disable" && this.state.showServers == false) {
+      this.hideServers(false);
     } else {
-      hideServers();
+      this.showServers(false);
     }
-  };
-  document.body.appendChild(btn);
+    this.resizeHandler();
+  },
+  init() {
+    // Select the server list element, which changes in some updates. 
+    const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
+      || document.getElementsByClassName('wrapper-1Rf91z')[0]
+      || document.getElementsByClassName('wrapper-3NnKdC')[0]
+      // General fallback to select the server list.
+      || document.querySelector("nav[class*=wrapper-]");
+
+    if (!guildsWrapper) {
+      // console.log("not a discord chat page");
+      return false;
+    }
+
+    if (document.getElementById("hds-btn")) {
+      // console.log("already initialised");
+      return true;
+    }
+
+    const btn = document.createElement("BUTTON");
+    const t = document.createTextNode("Hide Servers");
+    btn.appendChild(t);
+    btn.id = "hds-btn";
+    btn.onclick = () => {
+      if (guildsWrapper.style.display === 'none') {
+        this.showServers();
+      } else {
+        this.hideServers();
+      }
+    };
+    document.body.appendChild(btn);
+
+    this.$refs.guildsWrapper = guildsWrapper;
+    this.$refs.btn = btn;
+
+    let timeout = false; // holder for timeout id
+    window.addEventListener('resize', function () {
+      clearTimeout(timeout);
+      timeout = setTimeout(this.resizeHandler, 250);
+    });
 
 
-  let timeout = false; // holder for timeout id
-  window.addEventListener('resize', function () {
-    clearTimeout(timeout);
-    timeout = setTimeout(resizeHandler, 250);
-  });
+    const styles = [
+      'background: linear-gradient(#D33106, #571402)'
+      , 'border: 1px solid #3E0E02'
+      , 'color: white'
+      , 'display: block'
+      , 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)'
+      , 'background-image: linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+      , 'line-height: 40px'
+      , 'text-align: center'
+      , 'font-weight: bold'
+      , 'font-size: 18px'
+    ].join(';');
 
-  function resizeHandler() {
+    console.log('%c Hide Discord Sidebar extension activated ', styles);
+    return true;
+  },
+  resizeHandler() {
     // only if extension is active
-    if (state.active) {
-      if (state.servers == "server-autohide") {
-        if (window.innerWidth <= state.smallWindowWidth) {
-          hideServers();
+    if (this.state.active) {
+      if (this.state.servers == "server-autohide") {
+        if (window.innerWidth <= this.state.smallWindowWidth) {
+          this.hideServers();
         } else {
-          showServers();
+          this.showServers();
         }
       }
-      if (state.channels == "channel-autohide") {
-        document.body.classList.toggle("channel-hide", window.innerWidth <= state.smallWindowWidth);
+      if (this.state.channels == "channel-autohide") {
+        document.body.classList.toggle("channel-hide", window.innerWidth <= this.state.smallWindowWidth);
       }
     }
-  }
+  },
 
-  // initialize extension in page (response handled by onMessage handler below)
-  chrome.runtime.sendMessage({ action: "initialize" });
-
-  chrome.runtime.onMessage.addListener(function (request) {
-    state = request;
-    console.log(state);
-
-    document.body.classList.toggle("hide-dis-bar", state.active);
-    document.body.classList.toggle("channel-hide", state.channels == "channel-hide");
-
-    if (state.active && state.servers == "server-disable" && state.showServers == false) {
-      hideServers(false);
-    } else {
-      showServers(false);
-    }
-
-    resizeHandler();
-  });
-
-  function hideServers(updateBackend = true) {
-    guildsWrapper.style.display = 'none';
-    btn.innerHTML = "Show Servers";
+  hideServers(updateBackend = true) {
+    this.$refs.guildsWrapper.style.display = 'none';
+    this.$refs.btn.innerHTML = "Show Servers";
     if (updateBackend) {
-      state.showServers = false;
-      sendMessage({ action: "silent-update", state });
+      this.state.showServers = false;
+      this.sendMessage({ action: "silent-update", state: this.state });
     }
-  }
+  },
 
-  function showServers(updateBackend = true) {
-    guildsWrapper.style.display = 'flex';
-    btn.innerHTML = "Hide Servers";
+  showServers(updateBackend = true) {
+    this.$refs.guildsWrapper.style.display = 'flex';
+    this.$refs.btn.innerHTML = "Hide Servers";
     if (updateBackend) {
-      state.showServers = true;
-      sendMessage({ action: "silent-update", state });
+      this.state.showServers = true;
+      this.sendMessage({ action: "silent-update", state: this.state });
     }
+  },
+
+  sendMessage(message) {
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage(message, function (result) {
+        resolve(result);
+      });
+    });
   }
+};
 
-  const styles = [
-    'background: linear-gradient(#D33106, #571402)'
-    , 'border: 1px solid #3E0E02'
-    , 'color: white'
-    , 'display: block'
-    , 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)'
-    , 'background-image: linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
-    , 'line-height: 40px'
-    , 'text-align: center'
-    , 'font-weight: bold'
-    , 'font-size: 18px'
-  ].join(';');
-
-  console.log('%c Hide Discord Sidebar extension activated ', styles);
-}
-
-// DOMContentLoaded and load events don't work 
-// https://developer.mozilla.org/en-US/docs/Web/API/Document/readystatechange_event
-document.addEventListener('readystatechange', function () {
-  if (document.readyState === "complete") {
-    // Check that the Discord page contains the base chat element
-    if (document.getElementsByClassName('base-3dtUhz')[0]) {
-      hideDiscordSidebar();
-    }
+chrome.runtime.onMessage.addListener(function (state) {
+  let initialised = HDS.init(state);
+  if (initialised) {
+    HDS.stateChangeHandler(state);
   }
 });
 
-function sendMessage(message) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(message, function (result) {
-      resolve(result);
-    });
-  });
-}
+
+// DOMContentLoaded and load events don't work 
+// https://developer.mozilla.org/en-US/docs/Web/API/Document/readystatechange_event
+// document.addEventListener('readystatechange', function () {
+//   if (document.readyState === "complete") {
+//     // Check that the Discord page contains the base chat element
+//     if (document.getElementsByClassName('base-3dtUhz')[0]) {
+//       hideDiscordSidebar();
+//     }
+//   }
+// });
+

@@ -9,6 +9,7 @@ function getState(query) {
 
 function sendMessage(message) {
   return new Promise((resolve, reject) => {
+    message = JSON.parse(JSON.stringify(message)) // prevent DataCloneError
     chrome.runtime.sendMessage(message, function (result) {
       resolve(result);
     });
@@ -31,8 +32,8 @@ function ComponentHDS() {
   return {
     state: {
       active: true,
-      servers: "server-autohide",
-      channels: "channel-autohide",
+      servers: "",
+      channels: "",
       smallWindowWidth: 700
     },
     inputWindowWidth: 700,
