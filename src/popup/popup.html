@@ -4,20 +4,18 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="./popup.css">
   <link rel="stylesheet" href="./micromodal.css">
-  <script src="./micromodal.min.js" defer></script>
+  <script src="./micromodal.js" defer></script>
   <script src="./popup.js" defer></script>
-  <script src="./alpine.min.js" defer></script>
 </head>
 
 <body>
-  <div id="main" x-data="ComponentHDS()" x-init="created()">
+  <div id="main">
     <div class="flex flex-center" style="margin-bottom: 20px">
       <img width="40px" height="40px" src="../icons/hide-discord-sidebar.png" />
       <h1>Hide Discord Sidebar</h1>
     </div>
     <div class="component-power">
-      <div class="button button-power" @click="toggleActive()"
-        :inactive="!state.active">
+      <div class="button button-power">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
           class="bi bi-power" viewBox="0 0 16 16">
           <path d="M7.5 1v7h1V1h-1z" />
@@ -25,16 +23,14 @@
             d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
         </svg>
       </div>
-      <p x-show="state.active">Enabled</p>
-      <p x-show="!state.active" style="display: none;">Disabled</p>
+      <p class="button-power-text">Enabled</p>
     </div>
     <div>
       <h2>Servers</h2>
       <div class="flex-col">
         <div class="flex items-center">
           <div class="radio-item">
-            <input x-model="state.servers" type="radio" id="server-autohide"
-              value="server-autohide" name="server" checked>
+            <input type="radio" id="server-autohide" value="server-autohide" name="server">
             <label for="server-autohide">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
                 width="20" height="20" fill="currentColor">
@@ -46,7 +42,7 @@
               Autohide when window is small</label>
           </div>
 
-          <div class="flex flex-center" @click="openOptionsModal()">
+          <div class="icon-gear flex flex-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
               class="bi bi-gear-fill" viewBox="0 0 16 16">
               <path
@@ -55,8 +51,7 @@
           </div>
         </div>
         <div class="radio-item">
-          <input x-model="state.servers" type="radio" id="server-disable"
-            value="server-disable" name="server">
+          <input type="radio" id="server-disable" value="server-disable" name="server">
           <label for="server-disable">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
               width="20" height="20" fill="currentColor">
@@ -72,8 +67,7 @@
       <h2>Channels</h2>
       <div class="flex-col">
         <div class="radio-item">
-          <input x-model="state.channels" type="radio" id="channel-hide"
-            value="channel-hide" name="channel">
+          <input type="radio" id="channel-hide" value="channel-hide" name="channel">
           <label for="channel-hide">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
               width="20" height="20" fill="currentColor">
@@ -86,8 +80,7 @@
         </div>
         <div class="flex items-center">
           <div class="radio-item">
-            <input x-model="state.channels" type="radio" id="channel-autohide"
-              value="channel-autohide" name="channel" checked>
+            <input type="radio" id="channel-autohide" value="channel-autohide" name="channel">
             <label for="channel-autohide">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
                 width="20" height="20" fill="currentColor">
@@ -99,7 +92,7 @@
               Autohide when window is small
             </label>
           </div>
-          <div class="flex flex-center" @click="openOptionsModal()">
+          <div class="icon-gear flex flex-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
               class="bi bi-gear-fill" viewBox="0 0 16 16">
               <path
@@ -108,8 +101,7 @@
           </div>
         </div>
         <div class="radio-item">
-          <input x-model="state.channels" type="radio" id="channel-disable"
-            value="channel-disable" name="channel">
+          <input type="radio" id="channel-disable" value="channel-disable" name="channel">
           <label for="channel-disable">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
               width="20" height="20" fill="currentColor">
@@ -135,10 +127,9 @@
           </header>
           <main class="modal__content" id="modal-1-content">
             <label>SMALL WINDOW WIDTH <br />(FOR SERVERS & CHANNELS)<br />
-              <input type="number"
-                x-model="inputWindowWidth" /><b>px</b></label>
+              <input type="number" id="inputWindowWidth" /><b>px</b></label>
             <br />
-            <p>Current window width: <span x-text="parentWindowWidth"></span> px
+            <p>Current window width: <span id="parentWindowWidth"></span> px
             </p>
 
           </main>
@@ -146,8 +137,8 @@
             <button class="button modal__btn modal__btn-cancel"
               data-micromodal-close
               aria-label="Close this dialog window">Close</button>
-            <button @click="saveOptions()"
-              class="button modal__btn modal__btn-primary">Save</button>
+            <button 
+              class="button button-save modal__btn modal__btn-primary">Save</button>
           </footer>
         </div>
       </div>

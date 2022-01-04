@@ -18,7 +18,7 @@
 		"default_icon": "icons/icon128-inactive.png",
 		"default_popup": "popup/popup.html"
 	},
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"content_security_policy": "script-src 'self'; object-src 'self'",
 	"content_scripts": [
 		{
 			"matches": [
