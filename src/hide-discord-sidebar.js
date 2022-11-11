@@ -16,13 +16,17 @@ const HDS = {
     }
     this.resizeHandler();
   },
-  init() {
+  getServers() {
     // Select the server list element, which changes in some updates. 
     const guildsWrapper = document.getElementsByClassName('guildsWrapper-5TJh6A')[0]
       || document.getElementsByClassName('wrapper-1Rf91z')[0]
       || document.getElementsByClassName('wrapper-3NnKdC')[0]
       // General fallback to select the server list.
       || document.querySelector("nav[class*=wrapper-]");
+    return guildsWrapper;
+  },
+  init() {
+    const guildsWrapper = this.getServers();
 
     if (!guildsWrapper) {
       // console.log("not a discord chat page");
@@ -47,7 +51,6 @@ const HDS = {
     };
     document.body.appendChild(btn);
 
-    this.$refs.guildsWrapper = guildsWrapper;
     this.$refs.btn = btn;
 
     let timeout = false; // holder for timeout id
@@ -90,7 +93,7 @@ const HDS = {
   },
 
   hideServers(updateBackend = true) {
-    this.$refs.guildsWrapper.style.display = 'none';
+    this.getServers().style.display = 'none';
     this.$refs.btn.innerHTML = "Show Servers";
     if (updateBackend) {
       this.state.showServers = false;
@@ -99,7 +102,7 @@ const HDS = {
   },
 
   showServers(updateBackend = true) {
-    this.$refs.guildsWrapper.style.display = 'flex';
+    this.getServers().style.display = 'flex';
     this.$refs.btn.innerHTML = "Hide Servers";
     if (updateBackend) {
       this.state.showServers = true;

@@ -4,7 +4,7 @@ body.hide-dis-bar .noticeInfo-3_iTE1,
   z-index: 1000;
 }
 
-body.hide-dis-bar .toolbar-1t6TWx {
+body.hide-dis-bar div[class*="toolbar-"] {
   padding-right: 100px;
 }
 
