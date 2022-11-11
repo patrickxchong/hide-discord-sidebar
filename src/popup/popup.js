@@ -16,12 +16,22 @@ function sendMessage(message) {
   });
 }
 
-function executeScript(script) {
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}
+
+async function executeFunction(fn) {
+  const tabId = (await getCurrentTab()).id;
+
   return new Promise((resolve, reject) => {
-    chrome.tabs.executeScript({
-      code: script
-    }, function (results) {
-      resolve(results);
+    chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      func: fn
+    }, function (injectionResults) {
+      resolve(injectionResults[0].result);
     });
   });
 }
@@ -95,8 +105,8 @@ function ComponentHDS() {
 
     },
     async openOptionsModal() {
-      let results = await executeScript("window.innerWidth");
-      document.getElementById("parentWindowWidth").innerText = results[0];
+      let result = await executeFunction(() => { return window.innerWidth; });
+      document.getElementById("parentWindowWidth").innerText = result;
       document.getElementById("inputWindowWidth").value = this.state.smallWindowWidth;
       MicroModal.show("options-modal");
     },

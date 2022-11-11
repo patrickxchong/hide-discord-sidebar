@@ -1,36 +1,30 @@
 {
-	"name": "Hide Discord Sidebar",
-	"short_name": "Hide Dis Bar",
-	"version": "3.3.2",
-	"description": "Hide Discord Servers and Channels! Installs a button that hides/shows the Discord server list and autohides the channels list.",
-	"manifest_version": 2,
-	"icons": {
-		"128": "icons/icon128-active.png"
-	},
-	"permissions": [
-		"*://*.discord.com/*",
-		"storage"
-	],
-	"background": {
-		"scripts": ["background.js"]
-	},
-	"page_action": {
-		"default_icon": "icons/icon128-inactive.png",
-		"default_popup": "popup/popup.html"
-	},
-	"content_security_policy": "script-src 'self'; object-src 'self'",
-	"content_scripts": [
-		{
-			"matches": [
-				"*://*.discord.com/*"
-			],
-			"css": [
-				"hide-discord-sidebar.css"
-			],
-			"js": [
-				"hide-discord-sidebar.js"
-			],
-			"run_at": "document_end"
-		}
-	]
+  "name": "Hide Discord Sidebar",
+  "short_name": "Hide Dis Bar",
+  "version": "4.0.0",
+  "description": "Hide Discord Servers and Channels! Installs a button that hides/shows the Discord server list and autohides the channels list.",
+  "manifest_version": 3,
+  "icons": {
+    "128": "icons/icon128-active.png"
+  },
+  "permissions": ["scripting","storage"],
+  "host_permissions": ["*://*.discord.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "icons/icon128-inactive.png",
+    "default_popup": "popup/popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.discord.com/*"],
+      "css": ["hide-discord-sidebar.css"],
+      "js": ["hide-discord-sidebar.js"],
+      "run_at": "document_end"
+    }
+  ]
 }

@@ -9,9 +9,9 @@ function updateDiscordTabs(state) {
 function updateDiscordTab(state, tabId) {
   chrome.tabs.sendMessage(tabId, state);
   if (state.active) {
-    chrome.pageAction.setIcon({ tabId, path: "icons/icon128-active.png" });
+    chrome.action.setIcon({ tabId, path: "icons/icon128-active.png" });
   } else {
-    chrome.pageAction.setIcon({ tabId, path: "icons/icon128-inactive.png" });
+    chrome.action.setIcon({ tabId, path: "icons/icon128-inactive.png" });
   }
 }
 
@@ -56,11 +56,11 @@ chrome.runtime.onInstalled.addListener(async function (details) {
     chrome.tabs.query({ url: "*://*.discord.com/*" }, (tabs) => {
       tabs.forEach((tab) => {
         if (state.active) {
-          chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-active.png" });
+          chrome.action.setIcon({ tabId: tab.id, path: "icons/icon128-active.png" });
         } else {
-          chrome.pageAction.setIcon({ tabId: tab.id, path: "icons/icon128-inactive.png" });
+          chrome.action.setIcon({ tabId: tab.id, path: "icons/icon128-inactive.png" });
         }
-        chrome.pageAction.show(tab.id);
+        chrome.action.enable(tab.id);
       });
     });
 
@@ -74,9 +74,9 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
     // console.log(tabId, changeInfo, tab);
     let state = await getState(null);
     updateDiscordTab(state, tabId);
-    chrome.pageAction.show(tabId);
+    chrome.action.enable(tabId);
   } else if (changeInfo.status === 'complete') {
-    chrome.pageAction.hide(tabId);
+    chrome.action.disable(tabId);
   }
 });
 
@@ -86,9 +86,9 @@ chrome.tabs.onCreated.addListener(async function (tab) {
     // console.log(tab);
     let state = await getState(null);
     updateDiscordTab(state, tab.id);
-    chrome.pageAction.show(tab.id);
+    chrome.action.enable(tab.id);
   } else if (tab.url) {
-    chrome.pageAction.hide(tab.id);
+    chrome.action.disable(tab.id);
   }
 });
 
