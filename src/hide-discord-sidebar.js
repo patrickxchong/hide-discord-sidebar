@@ -5,16 +5,22 @@ const HDS = {
     btn: null,
   },
   stateChangeHandler(state) {
-    this.state = Object.assign({}, state);
-    document.body.classList.toggle("hide-dis-bar", this.state.active);
-    document.body.classList.toggle("channel-hide", this.state.channels == "channel-hide");
+    try {
+      this.state = Object.assign({}, state);
+      document.body.classList.toggle("hide-dis-bar", this.state.active);
+      document.body.classList.toggle("channel-hide", this.state.channels == "channel-hide");
 
-    if (this.state.active && this.state.servers == "server-disable" && this.state.showServers == false) {
-      this.hideServers(false);
-    } else {
-      this.showServers(false);
+      if (this.state.active && this.state.servers == "server-disable" && this.state.showServers == false) {
+        this.hideServers(false);
+      } else {
+        this.showServers(false);
+      }
+      this.resizeHandler();
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
-    this.resizeHandler();
   },
   getServers() {
     // Select the server list element, which changes in some updates. 
@@ -120,14 +126,23 @@ const HDS = {
 };
 
 chrome.runtime.onMessage.addListener(function (state) {
-  let initialised = HDS.init(state);
-  if (initialised) {
-    HDS.stateChangeHandler(state);
-  }
+  let initialised = false;
+  let timer = setInterval(function () {
+    if (!initialised) {
+      initialised = HDS.init(state);
+    }
+    
+    if (initialised) {
+      let handlerSuccess = HDS.stateChangeHandler(state);
+      if (handlerSuccess) {
+        clearInterval(timer);
+      }
+    }
+  }, 200);
 });
 
 
-// DOMContentLoaded and load events don't work 
+// DOMContentLoaded and load events don't work
 // https://developer.mozilla.org/en-US/docs/Web/API/Document/readystatechange_event
 // document.addEventListener('readystatechange', function () {
 //   if (document.readyState === "complete") {
