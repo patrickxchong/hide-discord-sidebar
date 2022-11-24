@@ -7,7 +7,7 @@
   "icons": {
     "128": "icons/icon128-active.png"
   },
-  "permissions": ["scripting","storage"],
+  "permissions": ["scripting","storage","webNavigation"],
   "host_permissions": ["*://*.discord.com/*"],
   "background": {
     "service_worker": "background.js"
@@ -24,7 +24,7 @@
       "matches": ["*://*.discord.com/*"],
       "css": ["hide-discord-sidebar.css"],
       "js": ["hide-discord-sidebar.js"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ]
 }

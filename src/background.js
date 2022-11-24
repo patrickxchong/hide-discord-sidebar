@@ -1,12 +1,13 @@
 // Alert scripts on Discord tabs and update extension icon 
 function updateDiscordTabs(state) {
-  // console.log(state);
+  console.log("updateDiscordTabs")
   chrome.tabs.query({ url: "*://*.discord.com/*" }, (tabs) => {
     tabs.forEach((tab) => updateDiscordTab(state, tab.id));
   });
 }
 
 function updateDiscordTab(state, tabId) {
+  console.log("updateDiscordTab")
   chrome.tabs.sendMessage(tabId, state);
   if (state.active) {
     chrome.action.setIcon({ tabId, path: "icons/icon128-active.png" });
@@ -67,14 +68,24 @@ chrome.runtime.onInstalled.addListener(async function (details) {
   }
 });
 
+
 // https://stackoverflow.com/questions/21881627/content-scripts-not-trapping-chrome-tabs-onupdate
+// https://stackoverflow.com/questions/33770825/get-previous-url-from-chrome-tabs-onupdated
+// This listener is required to update Discord tab when a person goes from https://discord.com/ (or other Discord non-app pages) to the Discord webapp itself
+const tabIdToPreviousUrl = {};
 chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url && tab.url.match(/discord\.com/)) {
-    // console.log("onUpdated");
-    // console.log(tabId, changeInfo, tab);
-    let state = await getState(null);
-    updateDiscordTab(state, tabId);
-    chrome.action.enable(tabId);
+    let previousUrl = tabIdToPreviousUrl[tabId] || "";
+
+    // If the url is different, perform action
+    if (previousUrl !== tab.url && !previousUrl.match(/(channels|store|guild-discovery)/)) {
+      // do something
+      let state = await getState(null);
+      updateDiscordTab(state, tabId);
+      chrome.action.enable(tabId);
+    }
+    // Add the current url as previous url
+    tabIdToPreviousUrl[tabId] = tab.url;
   } else if (changeInfo.status === 'complete') {
     chrome.action.disable(tabId);
   }
@@ -82,14 +93,20 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
 
 chrome.tabs.onCreated.addListener(async function (tab) {
   if (tab.url && tab.url.match(/discord\.com/)) {
-    // console.log("onCreated");
-    // console.log(tab);
     let state = await getState(null);
     updateDiscordTab(state, tab.id);
     chrome.action.enable(tab.id);
   } else if (tab.url) {
     chrome.action.disable(tab.id);
   }
+});
+
+chrome.webNavigation.onBeforeNavigate.addListener(function (details) {
+  delete tabIdToPreviousUrl[details.tabId];
+})
+
+chrome.tabs.onRemoved.addListener(function (tabId) {
+  delete tabIdToPreviousUrl[tabId];
 });
 
 // Promisefy Chrome functions
