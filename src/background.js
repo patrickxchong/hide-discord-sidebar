@@ -1,13 +1,13 @@
 // Alert scripts on Discord tabs and update extension icon 
 function updateDiscordTabs(state) {
-  console.log("updateDiscordTabs")
+  console.log("updateDiscordTabs");
   chrome.tabs.query({ url: "*://*.discord.com/*" }, (tabs) => {
     tabs.forEach((tab) => updateDiscordTab(state, tab.id));
   });
 }
 
 function updateDiscordTab(state, tabId) {
-  console.log("updateDiscordTab")
+  console.log("updateDiscordTab");
   chrome.tabs.sendMessage(tabId, state);
   if (state.active) {
     chrome.action.setIcon({ tabId, path: "icons/icon128-active.png" });
@@ -77,9 +77,9 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete' && tab.url && tab.url.match(/discord\.com/)) {
     let previousUrl = tabIdToPreviousUrl[tabId] || "";
 
-    // If the url is different, perform action
-    if (previousUrl !== tab.url && !previousUrl.match(/(channels|store|guild-discovery)/)) {
-      // do something
+    // If the url is the same (tab refresh), or if the url does not match the Discord webapp paths,
+    // initialise the extension.
+    if (previousUrl === tab.url || !previousUrl.match(/(channels|store|guild-discovery)/)) {
       let state = await getState(null);
       updateDiscordTab(state, tabId);
       chrome.action.enable(tabId);
@@ -100,10 +100,6 @@ chrome.tabs.onCreated.addListener(async function (tab) {
     chrome.action.disable(tab.id);
   }
 });
-
-chrome.webNavigation.onBeforeNavigate.addListener(function (details) {
-  delete tabIdToPreviousUrl[details.tabId];
-})
 
 chrome.tabs.onRemoved.addListener(function (tabId) {
   delete tabIdToPreviousUrl[tabId];
