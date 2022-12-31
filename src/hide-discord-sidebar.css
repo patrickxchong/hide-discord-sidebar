@@ -1,4 +1,8 @@
 /* .hide-dis-bar class on body indicates that extension is active */
+body.hide-dis-bar div[class*="toolbar-"] {
+  padding-right: 100px;
+}
+
 body.hide-dis-bar .noticeInfo-3_iTE1,
 .notice-2FJMB4 {
   z-index: 1000;
