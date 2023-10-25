@@ -28,10 +28,26 @@ const HDS = {
       || document.getElementsByClassName('wrapper-1Rf91z')[0]
       || document.getElementsByClassName('wrapper-3NnKdC')[0]
       // General fallback to select the server list.
-      || document.querySelector("nav[class*=wrapper-]");
+      || document.querySelector("nav[class*=wrapper-]")
+      || document.querySelector("nav[aria-label*='Servers sidebar']");
     return guildsWrapper;
   },
   init() {
+    const styles = [
+      'background: linear-gradient(#D33106, #571402)'
+      , 'border: 1px solid #3E0E02'
+      , 'color: white'
+      , 'display: block'
+      , 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)'
+      , 'background-image: linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+      , 'line-height: 40px'
+      , 'text-align: center'
+      , 'font-weight: bold'
+      , 'font-size: 18px'
+    ].join(';');
+
+    console.log('%c Hide Discord Sidebar extension initialising ', styles);
+
     const guildsWrapper = this.getServers();
 
     if (!guildsWrapper) {
@@ -64,20 +80,6 @@ const HDS = {
       clearTimeout(timeout);
       timeout = setTimeout(this.resizeHandler, 250);
     });
-
-
-    const styles = [
-      'background: linear-gradient(#D33106, #571402)'
-      , 'border: 1px solid #3E0E02'
-      , 'color: white'
-      , 'display: block'
-      , 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)'
-      , 'background-image: linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
-      , 'line-height: 40px'
-      , 'text-align: center'
-      , 'font-weight: bold'
-      , 'font-size: 18px'
-    ].join(';');
 
     console.log('%c Hide Discord Sidebar extension activated ', styles);
     return true;
