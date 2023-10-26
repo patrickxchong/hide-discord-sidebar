@@ -31,24 +31,24 @@ body.hide-dis-bar #hds-btn {
   width: 90px;
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar-"] {
+body.hide-dis-bar.channel-hide div[class*="sidebar"] {
   transition: all 0.1s ease 0.1s;
   width: 0 !important;
   padding-left: 3.5vmin !important;
 }
-body.hide-dis-bar.channel-hide div[class*="sidebar-"]:hover {
+body.hide-dis-bar.channel-hide div[class*="sidebar"]:hover {
   width: 240px !important;
   padding-left: 0 !important;
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar-"] > * {
+body.hide-dis-bar.channel-hide div[class*="sidebar"] > * {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 0.2s, opacity 0.2s linear;
   /* display: none; */
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar-"]:hover > * {
+body.hide-dis-bar.channel-hide div[class*="sidebar"]:hover > * {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s linear;
