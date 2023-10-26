@@ -29,6 +29,7 @@ const HDS = {
       || document.getElementsByClassName('wrapper-3NnKdC')[0]
       // General fallback to select the server list.
       || document.querySelector("nav[class*=wrapper-]")
+      || document.querySelector("nav[class*=guilds]")
       || document.querySelector("nav[aria-label*='Servers sidebar']");
     return guildsWrapper;
   },
