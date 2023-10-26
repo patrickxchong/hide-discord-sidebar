@@ -1,7 +1,7 @@
 {
 	"name": "Hide Discord Sidebar",
 	"short_name": "Hide Dis Bar",
-	"version": "3.3.2",
+	"version": "4.3.2",
 	"description": "Hide Discord Servers and Channels! Installs a button that hides/shows the Discord server list and autohides the channels list.",
 	"manifest_version": 2,
 	"icons": {
