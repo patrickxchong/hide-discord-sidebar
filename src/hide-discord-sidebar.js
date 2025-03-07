@@ -62,7 +62,7 @@ const HDS = {
     }
 
     const btn = document.createElement("BUTTON");
-    const t = document.createTextNode("Hide Servers");
+    const t = document.createTextNode("");
     btn.appendChild(t);
     btn.id = "hds-btn";
     btn.onclick = () => {
@@ -88,16 +88,8 @@ const HDS = {
   resizeHandler() {
     // only if extension is active
     if (this.state.active) {
-      if (this.state.servers == "server-autohide") {
-        if (window.innerWidth <= this.state.smallWindowWidth) {
-          this.hideServers();
-        } else {
-          this.showServers();
-        }
-      }
-      if (this.state.channels == "channel-autohide") {
-        document.body.classList.toggle("channel-hide", window.innerWidth <= this.state.smallWindowWidth);
-      }
+      this.hideServers();
+      document.body.classList.toggle("channel-hide", false);
     }
   },
 
