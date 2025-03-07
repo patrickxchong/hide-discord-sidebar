@@ -1,20 +1,17 @@
 {
-  "name": "Hide Discord Sidebar",
-  "short_name": "Hide Dis Bar",
-  "version": "4.4.0",
-  "description": "Hide Discord Servers and Channels! Installs a button that hides/shows the Discord server list and autohides the channels list.",
+  "name": "Discord Server View",
+  "short_name": "Dis Serv View",
+  "version": "1.1.0",
+  "description": "Provide a server specific view for Discord.",
   "manifest_version": 3,
   "icons": {
-    "128": "icons/icon128-active.png"
+    "128": "icons/icon128-active.png",
+    "default_icon": "icons/icon128-inactive.png"
   },
   "permissions": ["scripting","storage"],
   "host_permissions": ["*://*.discord.com/*"],
   "background": {
     "service_worker": "background.js"
-  },
-  "action": {
-    "default_icon": "icons/icon128-inactive.png",
-    "default_popup": "popup/popup.html"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
