@@ -4,10 +4,6 @@ body.hide-dis-bar .noticeInfo-3_iTE1,
   z-index: 1000;
 }
 
-body.hide-dis-bar div[class*="toolbar-"] {
-  padding-right: 100px;
-}
-
 body.hide-dis-bar .container-3gCOGc {
   z-index: 0;
 }
@@ -21,34 +17,34 @@ body.hide-dis-bar #hds-btn {
   display: block;
   background: #4f5660;
   color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   position: absolute;
-  top: 10px;
-  right: 9px;
+  top: 5px;
+  right: 104px;
   z-index: 100;
   border-radius: 4px;
-  width: 90px;
+  width: 95px;
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar"] {
+body.hide-dis-bar.channel-hide div[class*="sidebarList"] {
   transition: all 0.1s ease 0.1s;
   width: 0 !important;
   padding-left: 3.5vmin !important;
 }
-body.hide-dis-bar.channel-hide div[class*="sidebar"]:hover {
+body.hide-dis-bar.channel-hide div[class*="sidebarList"]:hover {
   width: 240px !important;
   padding-left: 0 !important;
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar"] > * {
+body.hide-dis-bar.channel-hide div[class*="sidebarList"] > * {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 0.2s, opacity 0.2s linear;
   /* display: none; */
 }
 
-body.hide-dis-bar.channel-hide div[class*="sidebar"]:hover > * {
+body.hide-dis-bar.channel-hide div[class*="sidebarList"]:hover > * {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s linear;

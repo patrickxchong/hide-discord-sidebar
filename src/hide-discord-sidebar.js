@@ -49,7 +49,7 @@ const HDS = {
 
     console.log('%c Hide Discord Sidebar extension initialising ', styles);
 
-    const guildsWrapper = this.getServers();
+    let guildsWrapper = this.getServers();
 
     if (!guildsWrapper) {
       // console.log("not a discord chat page");
@@ -66,6 +66,7 @@ const HDS = {
     btn.appendChild(t);
     btn.id = "hds-btn";
     btn.onclick = () => {
+      guildsWrapper = this.getServers();
       if (guildsWrapper.style.display === 'none') {
         this.showServers();
       } else {
