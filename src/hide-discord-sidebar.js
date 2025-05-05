@@ -78,9 +78,11 @@ const HDS = {
     this.$refs.btn = btn;
 
     let timeout = false; // holder for timeout id
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', () => {
       clearTimeout(timeout);
-      timeout = setTimeout(this.resizeHandler, 250);
+      timeout = setTimeout(() => {
+        this.resizeHandler();
+      }, 250);
     });
 
     console.log('%c Hide Discord Sidebar extension activated ', styles);
