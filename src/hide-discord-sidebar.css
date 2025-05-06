@@ -51,6 +51,11 @@ body.hide-dis-bar.channel-hide div[class*="sidebarList"]:hover > * {
   /* display: flex; */
 }
 
+/* Fix layout issue in Firefox */
+body.hide-dis-bar div[class^="sidebar_"] {
+  width: auto;
+}
+
 #hds-popup {
   display: none;
   justify-content: space-between; /* applies when display: flex */
